@@ -5,3 +5,8 @@ api-version: '1.21.8'
 load: STARTUP
 authors: [ Luki20091 ]
 description: MobSpawnerControl plugin - blocks spawner respawns with equipment and controls drops
+
+permissions:
+  mobspawnercontrol.reload:
+    description: Reload the MobSpawnerControl configuration
+    default: op
