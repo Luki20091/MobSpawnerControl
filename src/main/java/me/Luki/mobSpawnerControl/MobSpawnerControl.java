@@ -2,7 +2,6 @@ package me.Luki.mobSpawnerControl;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.event.HandlerList;
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MobSpawnerControl extends JavaPlugin {
@@ -21,19 +20,7 @@ public final class MobSpawnerControl extends JavaPlugin {
         pm.registerEvents(spawnerListener, this);
 
         if (debug) getLogger().info("Registered SpawnerListener");
-
-        // ensure every mob has a config section so server admin can toggle drops and respawn behaviour
-        for (EntityType t : EntityType.values()) {
-            String base = "mobs." + t.name();
-            if (!getConfig().isConfigurationSection(base)) {
-                // default: do NOT allow spawner respawn when entity has equipment
-                getConfig().set(base + ".respawn-with-equipment", false);
-                // default: do not allow any drops from spawner-spawned mobs unless explicitly enabled
-                getConfig().set(base + ".allow-any-drops", false);
-                getConfig().set(base + ".drops", null);
-                if (debug) getLogger().info("Created default config section for mob: " + t.name());
-            }
-        }
+        // defaults are provided in the bundled config.yml; do not generate per-EntityType sections here to avoid loops
         saveConfig();
     }
 
@@ -42,7 +29,8 @@ public final class MobSpawnerControl extends JavaPlugin {
         getLogger().info("MobSpawnerControl disabling");
         if (spawnerListener != null) {
             try {
-                spawnerListener.shutdown();
+                // cancel any scheduled tasks for this plugin and unregister listener
+                getServer().getScheduler().cancelTasks(this);
                 HandlerList.unregisterAll(spawnerListener);
             } catch (Throwable ignored) {}
         }
