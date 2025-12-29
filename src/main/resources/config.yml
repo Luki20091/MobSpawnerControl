@@ -1,0 +1,70 @@
+# MobSpawnerControl configuration
+# Set debug to true to enable detailed logging
+debug: true
+
+# Equipment-based detection: if a mob spawned by a spawner has any equipment (helmet, chestplate,
+# leggings, boots, main/off hand item), the plugin will consult the per-mob setting
+# `mobs.<MOB>.respawn-with-equipment` to decide whether to allow the spawn.
+
+# Per-mob settings. Sections for all mobs will be created automatically on first run.
+# Each mob will get these keys (defaults shown):
+#   respawn-with-equipment: false   # do NOT allow spawner to spawn equipped mobs by default
+#   allow-any-drops: false          # if false and `drops` is empty, all drops are removed for spawner-spawned mobs
+#   drops: {}                       # map of MATERIAL_NAME: true/false to allow specific drops
+
+mobs:
+  ZOMBIE:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      ROTTEN_FLESH: true
+      IRON_INGOT: true
+      CARROT: true
+      POTATO: true
+      ZOMBIE_HEAD: false
+  HUSK:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      ROTTEN_FLESH: true
+  DROWNED:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      ROTTEN_FLESH: true
+      NAUTILUS_SHELL: true
+      TRIDENT: false
+  ZOMBIE_VILLAGER:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      ROTTEN_FLESH: true
+  SKELETON:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      BONE: true
+      ARROW: true
+      BOW: false
+  SPIDER:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      STRING: true
+      SPIDER_EYE: true
+  CAVE_SPIDER:
+    respawn-with-equipment: false
+    allow-any-drops: false
+    drops:
+      STRING: true
+      SPIDER_EYE: true
+  
+# How many pending equipment-clean operations to process per server tick.
+# Lower values reduce per-tick work (less potential lag) but increase time
+# until newly spawned mobs are cleaned. Tune according to your server.
+cleanup-per-tick: 1
+# How many times to retry cleaning a recently-spawned entity (per entity).
+# This helps catch other plugins that equip mobs a few ticks after spawn.
+# Increase to be more aggressive; decrease to reduce overall work.
+cleanup-attempts: 1
+
